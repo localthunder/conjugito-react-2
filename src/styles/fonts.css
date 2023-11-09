@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'SofiaProLight';
+    src: url('../../public/fonts/SofiaProLight.woff2') format('woff2');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SofiaProRegular';
+    src: url('../../public/fonts/SofiaProRegular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SofiaProMedium';
+    src: url('../../public/fonts/SofiaProMedium.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}

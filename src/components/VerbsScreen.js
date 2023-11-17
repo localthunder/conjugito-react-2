@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { Divider, Typography, Container, TextField, Drawer, IconButton, ListItemButton, ListItemText } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Typography, Container, TextField, Drawer, IconButton, ListItemButton, ListItemText } from '@mui/material';
 import { FixedSizeList as List } from 'react-window';
 import VerbScreen from './VerbScreen';
+import { ChevronRight, Close as CloseIcon} from '@mui/icons-material';
 
 const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
     const [verbs, setVerbs] = useState([]);
@@ -29,16 +30,11 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
     }, []);
 
     // Need to make changes here if you want search to come back for Eng infinitive and conjugations
-    const filteredVerbs = verbs.filter(v => v.infinitive.includes(search));
-
-    const commonVerbs = useMemo( () =>
-        verbs.filter(v => v.infinitive.includes(search) && v.common),
-        [verbs, search]
-    );
-    const uncommonVerbs = useMemo( () =>
-        verbs.filter(v => v.infinitive.includes(search) && !v.common),
-        [verbs, search]
-    );
+    const filteredVerbs = verbs.filter(v =>
+        v.infinitive.toLowerCase().includes(search.toLowerCase()) ||
+        v.englishInfinitive.toLowerCase().includes(search.toLowerCase())
+      );
+    
 
     const rowRenderer = ({ index, style }) => {
         const item = filteredVerbs[index];
@@ -60,12 +56,13 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
                     whiteSpace: 'nowrap',
                 }}
             />
+            <ChevronRight />
             </ListItemButton>
         );
     };
 
     return (
-        <div style={{overflowY: 'hidden'}}>
+        <div style={{overflowY: 'auto'}}>
             <Drawer
                 anchor="right"
                 open={showVerbsScreen}
@@ -73,19 +70,32 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
                     setShowVerbsScreen(false)
                     setSelectedVerb(null)
                 }}
-                style={{overflowY: 'hidden'}}
+                style={{overflowY: 'auto'}}
             >
                 <Container
                     style={{ 
                         width: '40vw', 
                         minWidth: '300px',
-                        overflowX: 'hidden'
+                        overflowX: 'auto',
+                        padding:'16px'
                     }}            
 
                 >
-                    <Typography variant="h4" gutterBottom>
-                        Verbs
-                    </Typography>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography variant="h4" >
+                            Verbs
+                        </Typography>
+                        <IconButton
+                            color="inherit"
+                            onClick={() => setShowVerbsScreen(false)}
+                            style={{ 
+                            backgroundColor: 'rgba(211, 211, 211, 0.5)',
+                            borderRadius: '50%' 
+                            }}
+                        >
+                            <CloseIcon style={{ color: 'grey' }} />
+                        </IconButton>
+                    </div>
 
                     <TextField
                         variant="outlined"
@@ -96,7 +106,7 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <List
-                        height={400}  // Adjust height to fit your design
+                        height={1000} 
                         width="100%"  // Adjust width to fit your design
                         itemSize={80}  // Adjust item size to fit your design
                         itemCount={filteredVerbs.length}

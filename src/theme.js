@@ -41,24 +41,24 @@ const theme = createTheme({
   },
   
   typography: {
-    fontFamily: 'SofiaProRegular, Arial, sans-serif',
+    fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
     h1: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },
       h2: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },
       h3: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },    
       h4: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },
       h5: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },
       h6: {
-        fontFamily: 'SofiaProRegular, Arial, sans-serif',
+        fontFamily: 'SofiaProRegular, SofiaProLight, sans-serif',
       },
   }
 });

@@ -6,6 +6,7 @@ import { ListAlt } from '@mui/icons-material';
 import VerbsScreen from './VerbsScreen';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import logo from '../assets/conjugito-round-logo.png'
+import { fetchUserSettings } from '../api/fetchUserSettings';
 
 
 function ConjugationPracticeScreen() {
@@ -19,7 +20,6 @@ function ConjugationPracticeScreen() {
 
   const [showSettings, setShowSettings] = useState(false);
   const [showVerbsScreen, setShowVerbsScreen] = useState(false);
-  const [verbConjugatorKey, setVerbConjugatorKey] = useState(0);
 
 
   const toggleSettings = () => {
@@ -57,17 +57,11 @@ function ConjugationPracticeScreen() {
   };
 
   useEffect(() => {
-    console.log("Fetching user settings...");
-
-    const userId = 1; // MUST BE CHANGED BEFORE PRODUCTION
-
-    const fetchUserSettings = async () => {
+    const userId = 1; // MUST CHANGE BEFORE PRODUCTION!!!
+  
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/userpracticesettings/${userId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        const data = await response.json();
+        const data = await fetchUserSettings(userId);
         setUserPracticeSettings(data);
         setLoading(false);
       } catch (error) {
@@ -75,9 +69,11 @@ function ConjugationPracticeScreen() {
         setLoading(false);
       }
     };
+  
+    fetchData();
+  }, [showSettings]);
+  
 
-    fetchUserSettings();
-  }, []);
 
   useEffect(() => {
 
@@ -106,7 +102,7 @@ function ConjugationPracticeScreen() {
 
       fetchRandomVerb();
     }
-  }, [listOfTenses, userPracticeSettings]);
+  }, [listOfTenses]);
   
   const resetScreen = () => {
     setRandomVerb('');
@@ -121,15 +117,8 @@ function ConjugationPracticeScreen() {
 
     fetchRandomVerb();
 
-    setVerbConjugatorKey(verbConjugatorKey + 1);
-
   };
 
-  useEffect(() => {
-    if (!showSettings) {
-      resetScreen();
-    }
-  }, [showSettings]);
 
   if (loading) {
     return <p>Loading...</p>;
@@ -146,7 +135,7 @@ function ConjugationPracticeScreen() {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', fontFamily: 'SofiaProRegular, sans-serif' }}>
             <img src={logo} alt="Logo" style={{ height: '40px', padding: '12px' }} />
-            Conjugito
+            Hablito
           </Typography>
           <IconButton color="inherit" aria-label="Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column' }}>
             <ListAlt />
@@ -160,7 +149,6 @@ function ConjugationPracticeScreen() {
       </AppBar>
       <div>
         <VerbConjugator 
-          key={verbConjugatorKey}
           randomVerb={randomVerb}
           randomTense={randomTense}
           randomVerbForm={randomVerbForm}

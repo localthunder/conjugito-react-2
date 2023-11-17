@@ -4,11 +4,11 @@ import TensePill from "./TensePill";
 import Button from '@mui/material/Button';  // Import the Button component from Material-UI
 import IconButton from '@mui/material/IconButton'; 
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'; 
-import { TextField, alpha } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { colors } from "../colors";
 import theme from "../theme";
 
-function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen }) {
+function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen}) {
   const [inputValue, setInputValue] = useState('');
   const [buttonText, setButtonText] = useState('Check');  // New state variable for button text
   const [showEnglishInfinitive, setShowEnglishInfinitive] = useState(false);  // New state variable
@@ -30,6 +30,7 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen }
     if (checkAnswer(inputValue, conjugated)) {
       setButtonText('Next');  
       setShowEnglishInfinitive(true)
+      setInputValue(conjugated)
       setShowConjugationAudio(true);
       setShowMeDisabled(true);
       setUserAnswer('correct');
@@ -110,7 +111,9 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen }
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: '48px' }}>
           {/* New flex container */}
           <div style={{ display: 'flex', fontSize: '48px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
-            {randomVerb.infinitive}
+            <Typography variant="h2" style={{fontFamily: 'SofiaProLight'}}>
+              {randomVerb.infinitive}
+            </Typography>
           </div>
           <div style={{ width: '64px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <IconButton color="primary" style={{ alignItems: 'center' }} aria-label="Play sound" component="span" onClick={handlePlaySound}>
@@ -127,56 +130,55 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen }
               visibility: showEnglishInfinitive ? 'visible' : 'hidden',
             }}
           >
-            {randomVerb.englishInfinitive}
+            <Typography variant='h5' style={{fontFamily: 'SofiaProLight'}}>
+              {randomVerb.englishInfinitive}
+            </Typography>
           </p>
         </div>
         <div style={{ height: '32px', margin: '24px'}}>
           <TensePill 
           tense={randomTense}
-          isDarkMode={ true } //NEED TO BUILD SOMETHING FOR DARKMODE HERE!!
+          isDarkMode={ false } //NEED TO BUILD SOMETHING FOR DARKMODE HERE!!
         />
         </div>
-
-<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '48px', gap: '8px', width: '40%' }}>
-  {/* Fixed-width TextField from MUI, centered, does not grow or shrink */}
-  <div style={{ flexGrow: 0, flexShrink: 0, width: '320px' }}>
-    <TextField
-          value={inputValue}
-          onChange={handleInputChange}
-          variant="filled"
-          onKeyDown={(e) => {
-           if (e.key === "Enter"){
-            handleEnterKey()
-           }
-          }
-          }
-          label={randomVerbForm}
-          style={{ width: '100%'}}
-          InputProps={{
-            style: { paddingLeft: '2.4em', paddingRight: '1em', backgroundColor: textFieldColour, color: 'black', textAlign: 'center'},
-            autoFocus: true,
-            inputProps: {style: {textAlign: 'center'}},
-            endAdornment: (
-              <IconButton 
-              color= 'primary'
-              style={{ opacity: showConjugationAudio ? 1 : 0 }} 
-              aria-label="Play conjugation sound" 
-              component="span"
-              disabled={!showConjugationAudio}
-              onClick={handleConjugationAudioClick}>
-              <VolumeUpIcon style={{ fontSize: 20 }} />
-            </IconButton>              
-            )
-          }}
-          inputLabelProps={{
-            style: { color: 'white', width: '100%', textAlign: 'left' } // Style the label
-          }}
-          inputRef={inputRef}
-    />
-  </div>
-</div>
-
-
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '48px', gap: '8px', width: '40%' }}>
+          {/* Fixed-width TextField from MUI, centered, does not grow or shrink */}
+          <div style={{ flexGrow: 0, flexShrink: 0, width: '320px' }}>
+            <TextField
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  variant="filled"
+                  onKeyDown={(e) => {
+                  if (e.key === "Enter"){
+                    handleEnterKey()
+                  }
+                  }
+                  }
+                  label={randomVerbForm}
+                  style={{ width: '100%'}}
+                  InputProps={{
+                    style: { paddingLeft: '2.4em', paddingRight: '1em', backgroundColor: textFieldColour, color: 'black', textAlign: 'center'},
+                    autoFocus: true,
+                    inputProps: {style: {textAlign: 'center'}},
+                    endAdornment: (
+                      <IconButton 
+                      color= 'primary'
+                      style={{ opacity: showConjugationAudio ? 1 : 0 }} 
+                      aria-label="Play conjugation sound" 
+                      component="span"
+                      disabled={!showConjugationAudio}
+                      onClick={handleConjugationAudioClick}>
+                      <VolumeUpIcon style={{ fontSize: 20 }} />
+                    </IconButton>              
+                    )
+                  }}
+                  inputLabelProps={{
+                    style: { color: 'white', width: '100%', textAlign: 'left' } // Style the label
+                  }}
+                  inputRef={inputRef}
+            />
+          </div>
+        </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '320px', paddingTop: '20px' }}>
         <Button variant="text" color="primary" onClick={handleShowMeClick} disabled={showMeDisabled} style={{color: showMeDisabled ? theme.palette.primary.disabled : theme.palette.primary.main}}>
           Show Me

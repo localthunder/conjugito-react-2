@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Drawer, Typography, List, ListItem, ListItemText, Switch, Divider, Button } from '@mui/material';
+import { Drawer, Container, Typography, List, ListItem, ListItemText, Switch, Divider, Button, IconButton, Snackbar} from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 const SettingsSidebar = ({ open, onClose, settings}) => {
   const [reflexiveVerbs, setReflexiveVerbs] = useState(settings.showReflexiveVerbs);
@@ -49,8 +50,11 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
         })
       });
 
-      onClose(); // Close the sidebar after saving
-  
+      if(!areAnyTensesSelected()){
+        setSnackbarOpen(true)
+      } else {
+        onClose(); // Close the sidebar after saving
+      }  
       // Handle success, if needed. E.g., notify the user that settings were saved.
     } catch (error) {
       // Handle error and notify the user
@@ -59,19 +63,76 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
     }
   }
 
-    const handleCloseAndSave = () => {
-    handleSaveChanges();  // Save changes when sidebar is closed
-    onClose();  // Close the sidebar
-  }
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  const areAnyTensesSelected = () => {
+    const tenseSwitchStates = [
+      presentTense,
+      preteriteTense,
+      futureTense,
+      imperfectTense,
+      conditionalTense,
+      presentPerfectTense,
+      pluperfectTense,
+      futurePerfectTense,
+      conditionalPerfectTense,
+      preteritePerfectTense,
+      presentSubjunctiveTense,
+      imperfectSubjunctiveTenseRa,
+      imperfectSubjunctiveTenseSe,
+      imperativeMood,
+      negativeImperativeMood,
+    ];
+
+    return tenseSwitchStates.some((tenseSwitch) => tenseSwitch);
+  };
+
+  const handleCloseAndSave = () => {
+    // Check if at least one tense is selected
+    if (!areAnyTensesSelected()) {
+      // Show error Snackbar
+      setSnackbarOpen(true);
+    } else {
+      // Save changes and close the sidebar
+      handleSaveChanges();
+    }
+  };
+
 
   return (
     <Drawer anchor="right" open={open} onClose={handleCloseAndSave}>
-    <div style={{ width: 350, padding: '20px', overflowX: 'hidden', overflowY: 'auto', height: '100vh' }}>
-        <Typography variant="h4" gutterBottom>Settings</Typography>
+      <Container
+        style={{ 
+        width: '30vw', 
+        minWidth: '300px',
+        overflowX: 'auto',
+        padding: '0px'      
+      }}            
+      >
+    <div style={{ width: '350', padding: '20px', height: '100vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '16px' }}>
+        <Typography variant="h4" >
+            Settings
+        </Typography>
+        <IconButton
+            color="inherit"
+            onClick={() => handleCloseAndSave()}
+            style={{ 
+            backgroundColor: 'rgba(211, 211, 211, 0.5)',
+            borderRadius: '50%' 
+            }}
+        >
+            <CloseIcon style={{ color: 'grey' }} />
+        </IconButton>
+    </div>        
         <Divider />
 
         <List>
-        <Typography variant="h6">Verbs</Typography>
+        <Typography variant="h6" paddingTop={'16px'} >Verbs</Typography>
           <ListItem>
             <ListItemText primary="Reflexive verbs" />
             <Switch 
@@ -88,7 +149,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           </ListItem>
 
           <Divider />
-          <Typography variant="h6">Indicative tenses</Typography>
+          <Typography variant="h6" paddingTop={'16px'}>Indicative tenses</Typography>
           <ListItem>
             <ListItemText primary="Present tense" />
             <Switch 
@@ -161,7 +222,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           </ListItem>
 
           <Divider />
-          <Typography variant="h6">Subjunctive tenses</Typography>
+          <Typography variant="h6" paddingTop={'16px'}>Subjunctive tenses</Typography>
           <ListItem>
             <ListItemText primary="Present subjunctive tense" />
             <Switch 
@@ -185,7 +246,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           </ListItem>
 
           <Divider />
-          <Typography variant="h6">Imperative moods</Typography>
+          <Typography variant="h6" paddingTop={'16px'}>Imperative moods</Typography>
           <ListItem>
             <ListItemText primary="Imperative" />
             <Switch 
@@ -201,12 +262,28 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
             />
           </ListItem>
         </List>
-        <div style={{ position: 'sticky', bottom: 0, backgroundColor: 'white', padding: '20px', borderTop: '1px solid #ccc'  }}>
+        <div style={{ position: '-webkit-sticky', position: 'sticky', bottom: 0, backgroundColor: 'white', padding: '20px', borderTop: '1px solid #ccc' }}>
          <Button onClick={handleSaveChanges} variant="contained" color="primary">
             Save Changes
           </Button>
         </div>
       </div>
+      </Container>
+            {/* Snackbar for error message */}
+            <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message="At least one tense must be selected."
+        action={
+          <>
+            <Button color="inherit" size="small" onClick={handleSnackbarClose}>
+              Dismiss
+            </Button>
+          </>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Set anchor origin to bottom right
+      />
     </Drawer>
   );
 };

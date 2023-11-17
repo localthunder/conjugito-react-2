@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Drawer, Typography, List, ListItem, ListSubheader, Collapse, ListItemButton, IconButton } from '@mui/material';
-import { ExpandLess, ExpandMore, VolumeUp as VolumeUpIcon } from '@mui/icons-material';
+import { Drawer, Container, Typography, ListItem, ListSubheader, Collapse, ListItemButton, IconButton } from '@mui/material';
+import { ExpandLess, ExpandMore, Close as CloseIcon, VolumeUp as VolumeUpIcon } from '@mui/icons-material';
 
 const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
   const [open, setOpen] = useState({
@@ -76,42 +76,73 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
       open={openVerbScreen}
       onClose={() => setOpenVerbScreen(false)}
     >
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>  {/* Wrap the verb and play button in a flex container */}
-          <Typography variant="h4">{selectedVerb.infinitive}</Typography>
-          <IconButton color="primary" aria-label="Play infinitive sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${selectedVerb.infinitive}.mp3`)}>
-            <VolumeUpIcon />
+      <Container
+        style={{ 
+        width: '40vw', 
+        minWidth: '300px',
+        overflowX: 'auto',
+        padding: '0px'      
+      }}            
+      >
+        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '8px', paddingRight: '8px'}}>
+          <IconButton
+            color="inherit"
+            onClick={() => setOpenVerbScreen(false)}
+            style={{ 
+              backgroundColor: 'rgba(211, 211, 211, 0.5)',
+              borderRadius: '50%' 
+            }}
+          >
+            <CloseIcon style={{ color: 'grey' }} />
           </IconButton>
         </div>
-        <Typography variant="h6">{selectedVerb.englishInfinitive}</Typography>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', paddingTop: '16px', paddingBottom: '16px', alignItems: 'center', justifyContent: 'center' }}>  {/* Wrap the verb and play button in a flex container */}
+            <Typography variant="h4">{selectedVerb.infinitive}</Typography>
+            <IconButton color="primary" aria-label="Play infinitive sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${selectedVerb.infinitive}.mp3`)}>
+              <VolumeUpIcon />
+            </IconButton>
+          </div>
+          <div style={{paddingBottom: '16px'}}>
+            <Typography variant="h6">{selectedVerb.englishInfinitive}</Typography>
+          </div>
 
-        {/* Repeat for each tense */}
-        {['Present', 'Preterite', 'Future', 'Imperfect', 'Conditional', 'PresentPerfect', 'PreteritePerfect', 'Pluperfect', 'FuturePerfect', 'ConditionalPerfect', 'PresentSubjunctive', 'ImperfectSubjunctiveRa', 'ImperfectSubjunctiveSe', 'Imperative', 'NegativeImperative'].map(tense => (
-        <React.Fragment key={tense}>
-          <ListSubheader style={{ backgroundColor: 'gray', textAlign: 'left' }}>
-            <ListItemButton onClick={() => handleClick(tense)}>
-              {tense}
-              {open[tense] ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-          </ListSubheader>
-          <Collapse in={open[tense]} timeout="auto" unmountOnExit>
-            {['yo', 'tu', 'el/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes'].map((pronoun, index) => (
-              <ListItem key={index}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              {pronoun}
-              {/* Access the fetched data dynamically based on the tense */}
-              {JSON.stringify(verbData[tense]?.[pronoun.split('/')[0]])}
-              <IconButton color="primary" aria-label="Play conjugation sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${tense}/${pronoun.split('/')[0]}.mp3`)} style={{ padding: '5px' }}>
-                  <VolumeUpIcon style={{ fontSize: '1rem' }} />  
-              </IconButton>
-               </div>
-            </ListItem>
-            ))}
-          </Collapse>
-        </React.Fragment>
-      ))}
-      <audio ref={audioRef} preload="auto" />
-      </div>
+          {/* Repeat for each tense */}
+          {['Present', 'Preterite', 'Future', 'Imperfect', 'Conditional', 'PresentPerfect', 'PreteritePerfect', 'Pluperfect', 'FuturePerfect', 'ConditionalPerfect', 'PresentSubjunctive', 'ImperfectSubjunctiveRa', 'ImperfectSubjunctiveSe', 'Imperative', 'NegativeImperative'].map(tense => (
+          <React.Fragment key={tense}>
+            <ListSubheader style={{ backgroundColor: 'lightgrey', color: 'grey', textAlign: 'left' }}>
+              <ListItemButton onClick={() => handleClick(tense)} style={{justifyContent: 'space-between' }}>
+                {tense}
+                {open[tense] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+            </ListSubheader>
+            <Collapse in={open[tense]} timeout="auto" unmountOnExit>
+              {['yo', 'tu', 'el/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes'].map((pronoun, index) => (
+                <ListItem key={index}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingLeft: '2em', paddingRight: '2em'}}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', verticalAlign: 'center', padding: '8px', margin: '8px' }}>
+                  <div style={{display: 'flex', padding: '8x'}}>
+                   <span style={{ fontSize: '0.8rem', color: 'gray' }}>{pronoun}</span>
+                  </div>
+                {/* Access the fetched data dynamically based on the tense */}
+                    <span style={{marginLeft:'0.5em', fontSize: '1.2em'}}>
+                      <Typography style={{fontSize: '1.1em'}}>
+                        {verbData[tense]?.[pronoun.split('/')[0]]}
+                      </Typography>
+                    </span>    
+                  </div>       
+                  <IconButton color="primary" aria-label="Play conjugation sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${tense}/${pronoun.split('/')[0]}.mp3`)} style={{ padding: '5px' }}>
+                    <VolumeUpIcon style={{ fontSize: '1rem' }} />  
+                </IconButton>
+                </div>
+              </ListItem>
+              ))}
+            </Collapse>
+          </React.Fragment>
+        ))}
+        <audio ref={audioRef} preload="auto" />
+        </div>
+      </Container>
     </Drawer>
   );
 };

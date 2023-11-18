@@ -29,6 +29,7 @@
     "ignore": ["public/audio/**.mp3", "public/audio/*/*.mp3", "node_modules", "**/public/audio/**", "public/audio/*/*"]
   },
   "scripts": {
+    "start-server": "nodemon --watch server --ignore 'public/audio/**'",
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "react-scripts start",
     "server": "nodemon server/server.js",

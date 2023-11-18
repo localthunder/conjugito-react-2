@@ -1,0 +1,3 @@
+{
+    "ignore": ["public/audio/**.mp3", "public/audio/*/*.mp3", "node_modules", "public/audio/*", "public/audio/*/*", "public/*"]
+}

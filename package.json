@@ -31,7 +31,7 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "react-scripts start",
-    "server": "nodemon --watch server --ignore 'public/audio/**/*' server/server.js",
+    "server": "nodemon server/server.js --ignore **/audio/**",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

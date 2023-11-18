@@ -28,13 +28,13 @@ const theme = createTheme({
       main: '#4caf50',
     },
     text: {
-      primary: '#212121',
+      primary: '##1b1b1f',
       secondary: '#757575',
       disabled: '#bdbdbd',
       hint: '#9e9e9e',
     },
     background: {
-      default: '#fafafa',
+      default: '#fefbff',
       paper: '#ffffff',
     },
     divider: '#bdbdbd',

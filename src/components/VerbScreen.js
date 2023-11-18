@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Drawer, Container, Typography, ListItem, ListSubheader, Collapse, ListItemButton, IconButton } from '@mui/material';
 import { ExpandLess, ExpandMore, Close as CloseIcon, VolumeUp as VolumeUpIcon } from '@mui/icons-material';
+import { colors } from '../colors';
 
 const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
   const [open, setOpen] = useState({
@@ -110,7 +111,7 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
           {/* Repeat for each tense */}
           {['Present', 'Preterite', 'Future', 'Imperfect', 'Conditional', 'PresentPerfect', 'PreteritePerfect', 'Pluperfect', 'FuturePerfect', 'ConditionalPerfect', 'PresentSubjunctive', 'ImperfectSubjunctiveRa', 'ImperfectSubjunctiveSe', 'Imperative', 'NegativeImperative'].map(tense => (
           <React.Fragment key={tense}>
-            <ListSubheader style={{ backgroundColor: 'lightgrey', color: 'grey', textAlign: 'left' }}>
+            <ListSubheader style={{ backgroundColor: colors.surfaceVariant, color: colors.onSurfaceVariant, textAlign: 'left' }}>
               <ListItemButton onClick={() => handleClick(tense)} style={{justifyContent: 'space-between' }}>
                 {tense}
                 {open[tense] ? <ExpandLess /> : <ExpandMore />}

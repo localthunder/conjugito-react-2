@@ -107,4 +107,9 @@ export const colors ={
 
     Green404: "#35fc3f30",
     Red404: "#d9000025",
+
+    surfaceVariant: '#595e72',
+    onSurfaceVariant: '#ffffff'
+
+    
 }

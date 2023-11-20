@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import { sequelize } from './models/index.js';
-
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
 const app = express();
@@ -25,6 +27,17 @@ app.use((req, res, next) => {
 import verbRoutes from './routes/verbRoutes.js';
 import tenseRoutes from './routes/tenseRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
+
+// Serve static files from the 'dist' directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Handle requests at the root path
+app.get('/', (req, res) => {
+  // Send the main HTML file from the 'dist' directory
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 // ROUTES
 app.use('/api', verbRoutes);

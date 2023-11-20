@@ -17,7 +17,7 @@
     "react-dom": "^18.2.0",
     "sequelize": "^6.35.1",
     "@emotion/react": "^11.7.0",
-    "@mui/styled-engine": "^5.3.0",
+    "@mui/styled-engine": "^5.3.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

@@ -4,7 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsSidebar from './SettingsSidebar';
 import { ListAlt } from '@mui/icons-material';
 import VerbsScreen from './VerbsScreen';
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, IconButton, Typography } from '@mui/material';
 import logo from '../assets/conjugito-round-logo.png'
 import { fetchUserSettings } from '../api/fetchUserSettings';
 
@@ -129,22 +129,21 @@ function ConjugationPracticeScreen() {
   }
 
   return (
-    <div style={{overflowY: 'hidden'}}>
-            {/* AppBar */}
+    <div style={{ overflowY: 'hidden', position: 'relative' }}>
+        {/* AppBar */}
             <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', fontFamily: 'SofiaProRegular, sans-serif' }}>
-            <img src={logo} alt="Logo" style={{ height: '40px', padding: '12px' }} />
+            <img src={logo} alt="Logo" style={{ height: '48px', padding: '12px' }} />
             Hablito
           </Typography>
-          <IconButton color="inherit" aria-label="Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column' }}>
-            <ListAlt />
-            <div style={{ fontSize: '10px', textAlign: 'center' }}>Verbs</div>
-          </IconButton>
-          <IconButton color="inherit" aria-label="Settings" onClick={toggleSettings} sx={{ flexDirection: 'column' }}>
-            <SettingsIcon />
-            <div style={{ fontSize: '10px', textAlign: 'center' }}>Settings</div>
-          </IconButton>
+          <Button color="inherit" variant="outlined" aria-label="All Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column', borderRadius: '2vw' }}>
+            <div style={{ textAlign: 'center', textTransform: 'none' }}>All Verbs</div>
+          </Button>
+          <div padding='4vw'></div>
+          <Button color="inherit" variant="outlined" aria-label="Select Tenses" onClick={toggleSettings} sx={{ flexDirection: 'column', borderRadius: '2vw' }}>
+            <div style={{ textAlign: 'center', textTransform: 'none' }}>Select Tenses</div>
+          </Button>
         </Toolbar>
       </AppBar>
       <div>

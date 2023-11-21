@@ -111,7 +111,7 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
           {/* Repeat for each tense */}
           {['Present', 'Preterite', 'Future', 'Imperfect', 'Conditional', 'PresentPerfect', 'PreteritePerfect', 'Pluperfect', 'FuturePerfect', 'ConditionalPerfect', 'PresentSubjunctive', 'ImperfectSubjunctiveRa', 'ImperfectSubjunctiveSe', 'Imperative', 'NegativeImperative'].map(tense => (
           <React.Fragment key={tense}>
-            <ListSubheader style={{ backgroundColor: colors.surfaceVariant, color: colors.onSurfaceVariant, textAlign: 'left' }}>
+            <ListSubheader style={{ backgroundColor: colors.surfaceVariant, color: colors.onSurfaceVariant, textAlign: 'left', paddingLeft: '0', paddingRight: '0', borderBottom: '1px solid white' }}>
               <ListItemButton onClick={() => handleClick(tense)} style={{justifyContent: 'space-between' }}>
                 {tense}
                 {open[tense] ? <ExpandLess /> : <ExpandMore />}
@@ -120,9 +120,9 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
             <Collapse in={open[tense]} timeout="auto" unmountOnExit>
               {['yo', 'tu', 'el/ella/usted', 'nosotros', 'vosotros', 'ellos/ellas/ustedes'].map((pronoun, index) => (
                 <ListItem key={index}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingLeft: '1em', paddingRight: '1em'}}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', paddingLeft: '1em', paddingRight: '1em', alignItems: 'center'}}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', verticalAlign: 'center', padding: '8px', margin: '8px' }}>
-                  <div style={{display: 'flex', padding: '8x'}}>
+                  <div style={{display: 'flex', padding: '8x', alignItems: 'center' }}>
                    <span style={{ fontSize: '0.8rem', color: 'gray' }}>{pronoun}</span>
                   </div>
                 {/* Access the fetched data dynamically based on the tense */}
@@ -132,9 +132,11 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
                       </Typography>
                     </span>    
                   </div>       
-                  <IconButton color="primary" aria-label="Play conjugation sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${tense}/${pronoun.split('/')[0]}.mp3`)} style={{ padding: '5px' }}>
-                    <VolumeUpIcon style={{ fontSize: '1rem' }} />  
-                </IconButton>
+                  <div style={{ display: 'flex', alignItems: 'center', width: '1em', height: '1em' }}>
+                    <IconButton color="primary" aria-label="Play conjugation sound" component="span" onClick={handlePlaySound(`./audio/${selectedVerb.infinitive}/${tense}/${pronoun.split('/')[0]}.mp3`)} style={{ padding: '5px' }}>
+                      <VolumeUpIcon style={{ fontSize: '1rem' }} />  
+                    </IconButton>
+                  </div>
                 </div>
               </ListItem>
               ))}

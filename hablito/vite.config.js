@@ -1,5 +1,8 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 import ViteReactPlugin from '@vitejs/plugin-react';
+
+// Determine the mode based on the environment
+const isProduction = process.env.NODE_ENV === 'production';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +13,9 @@ export default defineConfig({
     },
   },
   define: {
-    'process.env.NODE_ENV': '"production"',
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
   },
-})    
+  build: {
+    sourcemap: !isProduction, // Enable sourcemaps in development
+  },
+});

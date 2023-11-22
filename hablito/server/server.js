@@ -37,7 +37,8 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // Handle requests at the root path
 app.get('/', (req, res) => {
   // Send the main HTML file from the 'dist' directory
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  // res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  res.send("hello world")
 });
 
 // ROUTES

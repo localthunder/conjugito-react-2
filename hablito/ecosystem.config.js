@@ -1,7 +1,7 @@
 export default {
     apps: [{
       name: 'hablito',
-      script: 'npm start',
+      script: 'node server/server.js',
       env: {
         NODE_ENV: 'production'
       }

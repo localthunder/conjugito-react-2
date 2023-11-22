@@ -28,6 +28,11 @@ import verbRoutes from './routes/verbRoutes.js';
 import tenseRoutes from './routes/tenseRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
 
+// ROUTES
+app.use('/api', verbRoutes);
+app.use('/api', tenseRoutes);
+app.use('/api', settingRoutes);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -39,11 +44,6 @@ app.get('/', (req, res) => {
   // Send the main HTML file from the 'dist' directory
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
-
-// ROUTES
-app.use('/api', verbRoutes);
-app.use('/api', tenseRoutes);
-app.use('/api', settingRoutes);
 
 
 // Use verbRouter, e.g., 

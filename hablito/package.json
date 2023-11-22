@@ -9,7 +9,8 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "vite": "vite",
-    "server": "nodemon server/server.js --ignore **/audio/** --ignore **/audio/**/**"
+    "server": "nodemon server/server.js --ignore **/audio/** --ignore **/audio/**/**",
+    "start": "node server/server.js"
   },
   "dependencies": {
     "esbuild": "^0.19.6",

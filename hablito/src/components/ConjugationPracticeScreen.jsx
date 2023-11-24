@@ -7,6 +7,7 @@ import VerbsScreen from './VerbsScreen';
 import { AppBar, Toolbar, Button, IconButton, Typography } from '@mui/material';
 import logo from '../assets/conjugito-round-logo.png'
 import { fetchUserSettings } from '../api/fetchUserSettings';
+import httpCommon from '../http-common';
 
 
 function ConjugationPracticeScreen() {
@@ -34,7 +35,7 @@ function ConjugationPracticeScreen() {
 
   const fetchRandomVerb = async () => {
     try {
-      const response = await fetch('/api/randomverb', {
+      const response = await httpCommon.post('/randomverb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

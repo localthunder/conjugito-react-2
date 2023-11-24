@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Drawer, Container, Typography, ListItem, ListSubheader, Collapse, ListItemButton, IconButton } from '@mui/material';
 import { ExpandLess, ExpandMore, Close as CloseIcon, VolumeUp as VolumeUpIcon } from '@mui/icons-material';
 import { colors } from '../colors';
+import httpCommon from '../http-common';
 
 const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
   const [open, setOpen] = useState({
@@ -32,7 +33,7 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
     try {
       // Convert tense to the format used in your routes (e.g., Present -> Present, Future -> Future, etc.)
       const formattedTense = tense.charAt(0).toUpperCase() + tense.slice(1);
-      const response = await fetch(`/api/${formattedTense}/${verb}`, {
+      const response = await httpCommon.get(`/${formattedTense}/${verb}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

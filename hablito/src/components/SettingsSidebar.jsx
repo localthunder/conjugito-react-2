@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Drawer, Container, Typography, List, ListItem, ListItemText, Switch, Divider, Button, IconButton, Snackbar} from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
+import httpCommon from '../http-common';
 
 const SettingsSidebar = ({ open, onClose, settings}) => {
   const [reflexiveVerbs, setReflexiveVerbs] = useState(settings.showReflexiveVerbs);
@@ -26,7 +27,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
       const userId = 1 // MUST CHANGE
       
       // Make the API call
-      await fetch(`/api/updateuserpracticesettings/${userId}`, {
+      await httpCommon.post(`/updateuserpracticesettings/${userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

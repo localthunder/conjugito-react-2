@@ -1,6 +1,8 @@
+import httpCommon from "../http-common";
+
 export async function fetchConjugation(infinitive, tense, form) {
   try {
-    const response = await fetch('/api/conjugation', {
+    const response = await httpCommon.post('/conjugation', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

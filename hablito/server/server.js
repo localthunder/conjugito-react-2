@@ -14,9 +14,26 @@ sequelize.sync()
   .catch(err => console.error('Unable to connect to the database:', err));
 
 // Middleware
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({
+  origin: [
+    'localhost:3000',
+    'http://hablito.com',
+    'https://hablito.com',
+    'https://www.hablito.com',
+    // Add more origins if needed
+  ],
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  if (req.url.endsWith('.jsx')) {
+    res.type('application/javascript');
+  }
+  next();
+});
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -37,7 +54,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the 'dist' directory
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, '../dist'), { 
+  setHeaders: (res, path) => {
+    if (path.endsWith('.jsx')) {
+      res.type('application/javascript');
+    }
+  }
+}));
 
 // Handle requests at the root path
 app.get('/', (req, res) => {

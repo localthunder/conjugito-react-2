@@ -3,6 +3,7 @@ import { Typography, Container, TextField, Drawer, IconButton, ListItemButton, L
 import { FixedSizeList as List } from 'react-window';
 import VerbScreen from './VerbScreen';
 import { ChevronRight, Close as CloseIcon} from '@mui/icons-material';
+import httpCommon from '../http-common';
 
 const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
     const [verbs, setVerbs] = useState([]);
@@ -14,7 +15,7 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
     useEffect(() => {
         const fetchAllVerbs = async () => {
             try {
-                const response = await fetch(`/api/verbs`);
+                const response = await httpCommon.get(`/verbs`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok: ' + response.statusText);
                 }

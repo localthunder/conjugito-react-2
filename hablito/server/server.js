@@ -16,7 +16,7 @@ sequelize.sync()
 // Middleware
 app.use(cors({
   origin: [
-    'localhost:3000',
+    'localhost:5173',
     'http://hablito.com',
     'https://hablito.com',
     'https://www.hablito.com',

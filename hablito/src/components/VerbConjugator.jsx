@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { fetchConjugation } from "../api/fetchConjugation";
 import TensePill from "./TensePill";
 import Button from '@mui/material/Button';  // Import the Button component from Material-UI
@@ -8,7 +8,7 @@ import { TextField, Typography } from "@mui/material";
 import { colors } from "../colors";
 import theme from "../theme";
 
-function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen}) {
+function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, counter }) {
   const [inputValue, setInputValue] = useState('');
   const [buttonText, setButtonText] = useState('Check');  // New state variable for button text
   const [showEnglishInfinitive, setShowEnglishInfinitive] = useState(false);  // New state variable
@@ -87,6 +87,11 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen})
       handleCheckClick();
     }
   };
+
+  // Rerenders verb conjugator whenever the settings sidebar is opened or closed
+  useEffect(() => {
+    handleNextClick()
+  }, [counter])
 
   let textFieldColour = colors.Red404;
 

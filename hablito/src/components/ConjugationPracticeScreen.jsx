@@ -9,6 +9,7 @@ import logo from '../assets/conjugito-round-logo.png'
 import { fetchUserSettings } from '../api/fetchUserSettings';
 import httpCommon from '../http-common';
 import { getUserIdFromCookie } from '../cookies/getUserIdFromCookie';
+import { handleUserIdCookies } from '../cookies/handleUserIdCookies';
 
 
 function ConjugationPracticeScreen() {
@@ -26,6 +27,9 @@ function ConjugationPracticeScreen() {
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
+    if (!showSettings) {
+      // Settings sidebar is closing, add to the counter so that VerbConjugator re-renders
+      setCounter((prevCounter) => prevCounter + 1)    }
   };
 
   const toggleVerbsScreen = () => {
@@ -121,6 +125,8 @@ function ConjugationPracticeScreen() {
 
   };
 
+  const [counter, setCounter] = useState(0);
+
 
   if (loading) {
     return <p>Loading...</p>;
@@ -153,6 +159,7 @@ function ConjugationPracticeScreen() {
           randomTense={randomTense}
           randomVerbForm={randomVerbForm}
           resetScreen={resetScreen}
+          counter={counter}
         />
       </div>
 

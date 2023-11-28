@@ -34,7 +34,31 @@ export const updateUserSettings = async (req, res) => {
   }
 };
 
+export const createUserPracticeSettings = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Check if settings already exist for the user
+    const existingSettings = await db.user_practice_settings.findOne({ where: { user_id: userId } });
+    if (existingSettings) {
+      return res.status(400).json({ error: 'Settings already exist for this user.' });
+    }
+
+    // Create new user practice settings
+    const newUserSettings = await db.user_practice_settings.create({
+      user_id: userId,
+      // Add other properties from req.body as needed
+    });
+
+    res.status(201).json(newUserSettings);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+};
+
 export default {
   updateUserSettings,
-  getUserPracticeSettings
+  getUserPracticeSettings,
+  createUserPracticeSettings
 }

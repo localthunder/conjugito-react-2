@@ -41,11 +41,11 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
         },
       });
   
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
   
-      const data = await response.json();
+      const data = await response.data;
       console.log(`data from server for ${tense}: `, data);
       setVerbData(prevData => ({
         ...prevData,

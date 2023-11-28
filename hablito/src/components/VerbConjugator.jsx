@@ -103,14 +103,14 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen})
   }
 
   return (
-    <div style={{ background: 'white', color: 'black', padding: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'calc(100vh - 264px)', overflowY: 'o' }}>
+    <div style={{ background: 'white', color: 'black', padding: '6vw', display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'calc(100vh - 264px)', overflowY: 'o' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '60px', marginBottom: '20px' }}>  
         <div style={{ width: '64px', height: '64px' }}>
           {/* Invisible div with the same dimensions as the icon button */}
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: '48px' }}>
           {/* New flex container */}
-          <div style={{ display: 'flex', fontSize: '48px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', fontSize: '2.5vw', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
             <Typography variant="h2" style={{fontFamily: 'SofiaProLight'}}>
               {randomVerb.infinitive}
             </Typography>
@@ -121,20 +121,19 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen})
             </IconButton>
           </div>
         </div>
-        </div>
-        <div style={{ height: '48px', padding: '8px' }}>
-          <p
-            style={{
-              fontSize: '16px',
-              marginTop: '20px',
-              visibility: showEnglishInfinitive ? 'visible' : 'hidden',
-            }}
-          >
-            <Typography variant='h5' style={{fontFamily: 'SofiaProLight'}}>
-              {randomVerb.englishInfinitive}
-            </Typography>
-          </p>
-        </div>
+      </div>
+      <div style={{ height: '10vw', padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <p
+          style={{
+            fontSize: '1.5vw',
+            visibility: showEnglishInfinitive ? 'visible' : 'hidden',
+          }}
+        >
+          <Typography variant='h5' style={{fontFamily: 'SofiaProLight', textAlign: 'center'}}>
+            {randomVerb.englishInfinitive}
+          </Typography>
+        </p>
+      </div>
         <div style={{ height: '32px', margin: '24px'}}>
           <TensePill 
           tense={randomTense}

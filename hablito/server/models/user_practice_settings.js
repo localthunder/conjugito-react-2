@@ -17,7 +17,7 @@ import { DataTypes } from 'sequelize';
       },
       showUncommonVerbs: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showPresent: {
         type: DataTypes.BOOLEAN,
@@ -33,11 +33,11 @@ import { DataTypes } from 'sequelize';
       },
       showConditional: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showImperfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showPresentProgressive: {
         type: DataTypes.BOOLEAN,
@@ -61,35 +61,35 @@ import { DataTypes } from 'sequelize';
       },
       showPresentPerfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showPreteritePerfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showPluperfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showConditionalPerfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showFuturePerfect: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showPresentSubjunctive: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showImperfectSubjunctiveRa: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showImperfectSubjunctiveSe: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showFutureSubjunctive: {
         type: DataTypes.BOOLEAN,
@@ -109,11 +109,11 @@ import { DataTypes } from 'sequelize';
       },
       showImperative: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       showNegativeImperative: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
     }, {
       tableName: "user_practice_settings",

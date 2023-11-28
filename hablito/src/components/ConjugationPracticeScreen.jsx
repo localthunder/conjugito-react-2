@@ -8,6 +8,7 @@ import { AppBar, Toolbar, Button, IconButton, Typography } from '@mui/material';
 import logo from '../assets/conjugito-round-logo.png'
 import { fetchUserSettings } from '../api/fetchUserSettings';
 import httpCommon from '../http-common';
+import { getUserIdFromCookie } from '../cookies/getUserIdFromCookie';
 
 
 function ConjugationPracticeScreen() {
@@ -47,10 +48,10 @@ function ConjugationPracticeScreen() {
         }),
       });
   
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error('Network response was not ok: ' + response.statusText);
       }
-      const result = await response.json();
+      const result = await response.data;
       setRandomVerb(result);
     } catch (error) {
       console.error("Error fetching random verb:", error);
@@ -58,7 +59,7 @@ function ConjugationPracticeScreen() {
   };
 
   useEffect(() => {
-    const userId = 1; // MUST CHANGE BEFORE PRODUCTION!!!
+    const userId = getUserIdFromCookie();
   
     const fetchData = async () => {
       try {
@@ -138,11 +139,10 @@ function ConjugationPracticeScreen() {
             <img src={logo} alt="Logo" style={{ height: '48px', padding: '12px' }} />
             Hablito
           </Typography>
-          <Button color="inherit" variant="outlined" aria-label="All Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column', borderRadius: '2vw' }}>
+          <Button color="inherit" variant="outlined" aria-label="All Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column', borderRadius: '10vw', marginRight: '1vw' }}>
             <div style={{ textAlign: 'center', textTransform: 'none' }}>All Verbs</div>
           </Button>
-          <div padding='4vw'></div>
-          <Button color="inherit" variant="outlined" aria-label="Select Tenses" onClick={toggleSettings} sx={{ flexDirection: 'column', borderRadius: '2vw' }}>
+          <Button color="inherit" variant="outlined" aria-label="Select Tenses" onClick={toggleSettings} sx={{ flexDirection: 'column', borderRadius: '10vw' }}>
             <div style={{ textAlign: 'center', textTransform: 'none' }}>Select Tenses</div>
           </Button>
         </Toolbar>

@@ -16,17 +16,21 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
         const fetchAllVerbs = async () => {
             try {
                 const response = await httpCommon.get(`/verbs`);
-                if (!response.ok) {
+                
+                if (response.status !== 200) {
                     throw new Error('Network response was not ok: ' + response.statusText);
                 }
-                const data = await response.json();
+
+                console.log("Response.status = ", response.status)
+    
+                const data = response.data;
                 setVerbs(data);
-                console.log("Verbs Screen data: ", {data})
+                console.log("Verbs Screen data:", data);
             } catch (error) {
                 setError(error);
             }
-        }
-
+        };
+    
         fetchAllVerbs();
     }, []);
 

@@ -4,6 +4,7 @@ import { FixedSizeList as List } from 'react-window';
 import VerbScreen from './VerbScreen';
 import { ChevronRight, Close as CloseIcon} from '@mui/icons-material';
 import httpCommon from '../http-common';
+import UseIsMobile from './UseIsMobile';
 
 const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
     const [verbs, setVerbs] = useState([]);
@@ -66,6 +67,8 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
         );
     };
 
+    const isMobile = UseIsMobile()
+
     return (
         <div style={{overflowY: 'auto'}}>
             <Drawer
@@ -79,7 +82,7 @@ const VerbsScreen = ({showVerbsScreen, setShowVerbsScreen}) => {
             >
                 <Container
                     style={{ 
-                        width: '40vw', 
+                        width: isMobile ? '100vw' : '40vw', 
                         minWidth: '300px',
                         overflowX: 'auto',
                         padding:'16px'

@@ -4,13 +4,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsSidebar from './SettingsSidebar';
 import { ListAlt } from '@mui/icons-material';
 import VerbsScreen from './VerbsScreen';
-import { AppBar, Toolbar, Button, IconButton, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, IconButton, Typography, useMediaQuery } from '@mui/material';
 import logo from '../assets/conjugito-round-logo.png'
 import { fetchUserSettings } from '../api/fetchUserSettings';
 import httpCommon from '../http-common';
 import { getUserIdFromCookie } from '../cookies/getUserIdFromCookie';
-import { handleUserIdCookies } from '../cookies/handleUserIdCookies';
-
+import UseIsMobile from './UseIsMobile';
 
 function ConjugationPracticeScreen() {
   const [userPracticeSettings, setUserPracticeSettings] = useState(null);
@@ -127,6 +126,7 @@ function ConjugationPracticeScreen() {
 
   const [counter, setCounter] = useState(0);
 
+  const isMobile = UseIsMobile();
 
   if (loading) {
     return <p>Loading...</p>;
@@ -139,18 +139,33 @@ function ConjugationPracticeScreen() {
   return (
     <div style={{ overflowY: 'hidden', position: 'relative' }}>
         {/* AppBar */}
-            <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" sx={{ minHeight: 'auto'}}>
+        <Toolbar disableGutters variant={isMobile ? 'dense' : 'regular'}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', fontFamily: 'SofiaProRegular, sans-serif' }}>
-            <img src={logo} alt="Logo" style={{ height: '48px', padding: '12px' }} />
+            <img src={logo} alt="Logo" style={{ height: '4vh', padding: '8px' }} />
             Hablito
           </Typography>
-          <Button color="inherit" variant="outlined" aria-label="All Verbs" onClick={toggleVerbsScreen} sx={{ flexDirection: 'column', borderRadius: '10vw', marginRight: '1vw' }}>
-            <div style={{ textAlign: 'center', textTransform: 'none' }}>All Verbs</div>
-          </Button>
-          <Button color="inherit" variant="outlined" aria-label="Select Tenses" onClick={toggleSettings} sx={{ flexDirection: 'column', borderRadius: '10vw' }}>
-            <div style={{ textAlign: 'center', textTransform: 'none' }}>Select Tenses</div>
-          </Button>
+          {isMobile ? (
+            <>
+              <IconButton color="inherit" aria-label="All Verbs" onClick={toggleVerbsScreen} sx={{ marginRight: '1vw' }}>
+                <ListAlt />
+              </IconButton>
+              <IconButton color="inherit" aria-label="Select Tenses" onClick={toggleSettings} sx={{ marginRight: '1vw' }}>
+                <SettingsIcon />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" variant="outlined" aria-label="Verbs" onClick={toggleVerbsScreen} style={{ borderRadius: '10vw', textTransform: 'none', marginRight: '1vw' }} >
+                <ListAlt sx={{ marginRight: '0.5rem' }} />
+                 Verbs 
+              </Button>
+              <Button color="inherit" variant="outlined" aria-label="Settings" onClick={toggleSettings} style={{ borderRadius: '10vw', textTransform: 'none', marginRight: '1vw'}}>
+                <SettingsIcon sx={{ marginRight: '0.5rem' }} />
+                Settings
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <div>

@@ -4,9 +4,10 @@ import TensePill from "./TensePill";
 import Button from '@mui/material/Button';  // Import the Button component from Material-UI
 import IconButton from '@mui/material/IconButton'; 
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'; 
-import { TextField, Typography } from "@mui/material";
+import { TextField, Typography, useMediaQuery } from "@mui/material";
 import { colors } from "../colors";
 import theme from "../theme";
+import UseIsMobile from "./UseIsMobile";
 
 function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, counter }) {
   const [inputValue, setInputValue] = useState('');
@@ -93,6 +94,17 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
     handleNextClick()
   }, [counter])
 
+  //Ensures that the keyboard loads on mobile when the page loads for the first time
+  useEffect(() => {
+    // Use a setTimeout to focus after a short delay (e.g., 100 milliseconds)
+    const timeoutId = setTimeout(() => {
+      inputRef.current.focus();
+    }, 100);
+
+    // Clear the timeout when the component unmounts
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   let textFieldColour = colors.Red404;
 
   if (userAnswer === 'unchecked') {
@@ -107,16 +119,24 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
     textFieldColour = colors.Pink80;
   }
 
+  const isMobile = UseIsMobile()
+
   return (
-    <div style={{ background: 'white', color: 'black', padding: '6vw', display: 'flex', flexDirection: 'column', alignItems: 'center', height: 'calc(100vh - 264px)', overflowY: 'o' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '60px', marginBottom: '20px' }}>  
+    <div style={{ background: 'white', color: 'black', paddingLeft: '2vw', paddingRight: '2vw', paddingTop: isMobile ? '6vh': '8vh', display: 'flex', flexDirection: 'column', alignItems: 'center', height: isMobile ? '50vh' : 'calc(100vh - 264px)', overflowY: 'o' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>  
         <div style={{ width: '64px', height: '64px' }}>
           {/* Invisible div with the same dimensions as the icon button */}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: '48px' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           {/* New flex container */}
-          <div style={{ display: 'flex', fontSize: '2.5vw', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
-            <Typography variant="h2" style={{fontFamily: 'SofiaProLight'}}>
+          <div style={{ display: 'flex', maxWidth: '320px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
+            <Typography 
+              variant="h2" 
+              style={{ 
+                fontFamily: 'SofiaProLight', 
+                fontSize: isMobile ? '12vw' : '3.5em', 
+                maxWidth: '100%',
+                }}>
               {randomVerb.infinitive}
             </Typography>
           </div>
@@ -127,25 +147,32 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
           </div>
         </div>
       </div>
-      <div style={{ height: '10vw', padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <p
+      <div style={{ height: isMobile ? '10vw' : '8vh', padding: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div
           style={{
-            fontSize: '1.5vw',
             visibility: showEnglishInfinitive ? 'visible' : 'hidden',
+            display: 'flex', 
+            maxWidth: '480px', 
           }}
         >
-          <Typography variant='h5' style={{fontFamily: 'SofiaProLight', textAlign: 'center'}}>
+          <Typography 
+            variant='h5' 
+            style={{
+              fontFamily: 'SofiaProLight',
+              fontSize: isMobile ? '1.2em' : '1.5em', 
+              textAlign: 'center'
+              }}>
             {randomVerb.englishInfinitive}
           </Typography>
-        </p>
+        </div>
       </div>
-        <div style={{ height: '32px', margin: '24px'}}>
+        <div style={{ height: '4vh', margin: '2vh'}}>
           <TensePill 
           tense={randomTense}
           isDarkMode={ false } //NEED TO BUILD SOMETHING FOR DARKMODE HERE!!
         />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '48px', gap: '8px', width: '40%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '8vh', gap: '8px', width: '40%' }}>
           {/* Fixed-width TextField from MUI, centered, does not grow or shrink */}
           <div style={{ flexGrow: 0, flexShrink: 0, width: '320px' }}>
             <TextField
@@ -183,11 +210,11 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
             />
           </div>
         </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '320px', paddingTop: '20px' }}>
-        <Button variant="text" color="primary" onClick={handleShowMeClick} disabled={showMeDisabled} style={{color: showMeDisabled ? theme.palette.primary.disabled : theme.palette.primary.main}}>
-          Show Me
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '320px', paddingTop: '1.5vh' }}>
+        <Button variant="text" color="primary" onClick={handleShowMeClick} disabled={showMeDisabled} style={{color: showMeDisabled ? theme.palette.primary.disabled : theme.palette.primary.main, borderRadius: '10vw', textTransform: 'none' }}>
+          Show me
         </Button>
-        <Button variant="contained" color="primary" onClick={buttonText === 'Next' ? handleNextClick : handleCheckClick}>
+        <Button variant="contained" color="primary" onClick={buttonText === 'Next' ? handleNextClick : handleCheckClick} style={{ borderRadius: '10vw', textTransform: 'none', paddingLeft: '20px', paddingRight: '20px' }}>
           {buttonText}
         </Button>
       </div>

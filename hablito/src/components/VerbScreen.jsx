@@ -80,10 +80,10 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
     >
       <Container
         style={{ 
-        width: '40vw', 
-        minWidth: '300px',
-        overflowX: 'auto',
-        padding: '0px'      
+          width: isMobile ? '100vw' : '40vw', 
+          minWidth: '300px',
+          overflowX: 'auto',
+          padding: '0px'      
       }}            
       >
         <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: '8px', paddingRight: '8px'}}>

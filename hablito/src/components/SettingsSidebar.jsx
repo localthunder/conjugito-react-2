@@ -3,6 +3,7 @@ import { Drawer, Container, Typography, List, ListItem, ListItemText, Switch, Di
 import { Close as CloseIcon } from '@mui/icons-material';
 import httpCommon from '../http-common';
 import { getUserIdFromCookie } from '../cookies/getUserIdFromCookie';
+import UseIsMobile from './UseIsMobile';
 
 const SettingsSidebar = ({ open, onClose, settings}) => {
   const [reflexiveVerbs, setReflexiveVerbs] = useState(settings.showReflexiveVerbs);
@@ -100,35 +101,46 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
     }
   };
 
+  const isMobile = UseIsMobile()
 
   return (
     <Drawer anchor="right" open={open} onClose={handleCloseAndSave}>
       <Container
         style={{ 
-        width: '30vw', 
+        width: isMobile ? '100vw' : '30vw', 
         minWidth: '300px',
         overflowX: 'auto',
         padding: '0px'      
       }}            
       >
-    <div style={{ width: '350', padding: '20px', height: '100vh' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '16px' }}>
-        <Typography variant="h4" >
-            Settings
-        </Typography>
-        <IconButton
-            color="inherit"
-            onClick={() => handleCloseAndSave()}
-            style={{ 
-            backgroundColor: 'rgba(211, 211, 211, 0.5)',
-            borderRadius: '50%' 
-            }}
-        >
-            <CloseIcon style={{ color: 'grey' }} />
-        </IconButton>
-    </div>        
-        <Divider />
-
+    <div style={{ 
+      paddingLeft: '20px', 
+      paddingRight: '20px', 
+      paddingBottom: '20px', 
+      paddingTop: '0px', 
+      height: '100vh',
+      overflowY: 'auto',  // Make sure the content is scrollable
+      backgroundColor: 'white',
+      boxShadow: '0px 8px 10px -5px #9E9E9E',  // Add box shadow to separate it from the rest of the content
+      }}>
+    <div style={{position: 'sticky', top: '0', backgroundColor: 'white', zIndex: '1'}}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'white', paddingTop: '20px', paddingBottom: '16px' }}>
+          <Typography variant="h4" >
+              Settings
+          </Typography>
+          <IconButton
+              color="inherit"
+              onClick={() => handleCloseAndSave()}
+              style={{ 
+              backgroundColor: 'rgba(211, 211, 211, 0.5)',
+              borderRadius: '50%' 
+              }}
+          >
+              <CloseIcon style={{ color: 'grey' }} />
+          </IconButton>
+      </div>  
+      <Divider />
+    </div>      
         <List>
         <Typography variant="h6" paddingTop={'16px'} >Verbs</Typography>
           <ListItem>

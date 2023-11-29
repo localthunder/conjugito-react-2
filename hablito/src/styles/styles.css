@@ -26,4 +26,11 @@
     color: gray;
   }
 
+  .buttonRoot {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+  }
+
   

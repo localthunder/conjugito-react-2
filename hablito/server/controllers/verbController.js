@@ -18,7 +18,7 @@ export const getAllVerbs = async (req, res) => {
 export const getRandomVerb = async (req, res) => {
   try {
     // Extracting user preferences from the request body
-    const { showReflexiveVerbs, showIrregularVerbs, showUncommonVerbs } = req.body;
+    const { reflexive, showReflexiveVerbs, showIrregularVerbs, showUncommonVerbs, showCommonVerbs, showRegularVerbs} = req.body.body;
 
     // Define an empty where clause object
     let whereClause = {};
@@ -27,12 +27,23 @@ export const getRandomVerb = async (req, res) => {
     if (showReflexiveVerbs === false) {
       whereClause.reflexive = false;
     }
-    if (showIrregularVerbs === false) {
-      whereClause.irregular = false;
-    }
-    if (showUncommonVerbs === false) {
+    if (!showCommonVerbs && showUncommonVerbs) {
+      whereClause.common = false;
+    } else if (showCommonVerbs && !showUncommonVerbs) {
       whereClause.common = true;
     }
+    // If both showCommonVerbs and showUncommonVerbs are true, include both common and uncommon verbs
+    // If both are false, include all verbs regardless of common status
+
+    if (!showRegularVerbs && showIrregularVerbs) {
+      whereClause.irregular = true;
+    } else if (showRegularVerbs && !showIrregularVerbs) {
+      whereClause.irregular = false;
+    }
+    // If both showRegularVerbs and showIrregularVerbs are true, include both regular and irregular verbs
+    // If both are false, include all verbs regardless of irregular status
+
+    console.log("Constructed whereClause:", whereClause);
 
     // Fetch all verbs based on the dynamic where clause
     const eligibleVerbs = await db.Verb.findAll({ where: whereClause });

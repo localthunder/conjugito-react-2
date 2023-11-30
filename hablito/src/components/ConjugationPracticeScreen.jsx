@@ -12,7 +12,7 @@ import { getUserIdFromCookie } from '../cookies/getUserIdFromCookie';
 import UseIsMobile from './UseIsMobile';
 
 function ConjugationPracticeScreen() {
-  const [userPracticeSettings, setUserPracticeSettings] = useState(null);
+  const [userPracticeSettings, setUserPracticeSettings] = useState({ usevosotros: false });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [randomVerb, setRandomVerb] = useState('');
@@ -35,20 +35,24 @@ function ConjugationPracticeScreen() {
     setShowVerbsScreen(!showVerbsScreen);
   };
 
-  const listOfVerbForms = ['yo', 'tu', 'el', 'nosotros', 'vosotros', 'ellos'];
-
   const fetchRandomVerb = async () => {
     try {
+      const userId = getUserIdFromCookie()
+      const settings = await fetchUserSettings(userId)
+      console.log("settings are: ", settings)
       const response = await httpCommon.post('/randomverb', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          showReflexiveVerbs: userPracticeSettings.showReflexiveVerbs,
-          showIrregularVerbs: userPracticeSettings.showIrregularVerbs,
-          showUncommonVerbs: userPracticeSettings.showUncommonVerbs,
-        }),
+        body: {
+          showReflexiveVerbs: settings.showReflexiveVerbs,
+          showIrregularVerbs: settings.showIrregularVerbs,
+          showUncommonVerbs: settings.showUncommonVerbs,
+          showCommonVerbs: settings.show_common_verbs,
+          showRegularVerbs: settings.show_regular_verbs,
+          reflexive: settings.showReflexiveVerbs
+        },
       });
   
       if (response.status !== 200) {
@@ -77,7 +81,11 @@ function ConjugationPracticeScreen() {
   
     fetchData();
   }, [showSettings]);
+
+  const vosotrosEnabled = userPracticeSettings.usevosotros
   
+  const listOfVerbForms = ['yo', 'tu', 'el', 'nosotros', vosotrosEnabled && 'vosotros', 'ellos'].filter(Boolean);
+
 
 
   useEffect(() => {
@@ -87,7 +95,7 @@ function ConjugationPracticeScreen() {
 
       // Extract tenses from userPracticeSettings
       const tensesFromSettings = Object.keys(userPracticeSettings).filter(
-        (key) => userPracticeSettings[key] === true && key.startsWith("show") && !key.endsWith("Verbs")
+        (key) => userPracticeSettings[key] === true && key.startsWith("show") && !key.endsWith("Verbs") && !key.endsWith("_verbs")
       );
 
       const tenseNames = tensesFromSettings.map((tense) => tense.slice(4));

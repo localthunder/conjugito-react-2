@@ -23,6 +23,12 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
   const [imperfectSubjunctiveTenseSe, setImperfectSubjunctiveTenseSe] = useState(settings.showImperfectSubjunctiveSe);
   const [imperativeMood, setImperativeMood] = useState(settings.showImperative);
   const [negativeImperativeMood, setNegativeImperativeMood] = useState(settings.showNegativeImperative);
+  const [useVosotros, setUseVosotros] = useState(settings.usevosotros);
+  const [commonVerbs, setCommonVerbs] =useState(settings.show_common_verbs);
+  const [regularVerbs, setRegularVerbs] = useState(settings.show_regular_verbs);
+  const [irregularVerbs, setIrregularVerbs] = useState(settings.showIrregularVerbs);
+
+
   
   const handleSaveChanges = async () => {
     try {
@@ -46,11 +52,15 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           showImperfectSubjunctiveRa: imperfectSubjunctiveTenseRa,
           showImperfectSubjunctiveSe: imperfectSubjunctiveTenseSe,
           showImperative: imperativeMood,
-          showNegativeImperative: negativeImperativeMood
+          showNegativeImperative: negativeImperativeMood,
+          usevosotros: useVosotros,
+          show_common_verbs: commonVerbs,
+          show_regular_verbs: regularVerbs,
+          showIrregularVerbs: irregularVerbs
         });
 
       if(!areAnyTensesSelected()){
-        setSnackbarOpen(true)
+        setTenseSnackbarOpen(true)
       } else {
         onClose(); // Close the sidebar after saving
       }  
@@ -62,10 +72,15 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
     }
   }
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [tenseSnackbarOpen, setTenseSnackbarOpen] = useState(false);
+  const [commonSnackbarOpen, setCommonSnackbarOpen] = useState(false);
+  const [regularSnackbarOpen, setRegularSnackbarOpen] = useState(false);
+
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+    setTenseSnackbarOpen(false);
+    setCommonSnackbarOpen(false);
+    setRegularSnackbarOpen(false);
   };
 
   const areAnyTensesSelected = () => {
@@ -90,11 +105,33 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
     return tenseSwitchStates.some((tenseSwitch) => tenseSwitch);
   };
 
+  const isCommonOrUncommonSelected = () => {
+    const commonSwitchStates = [
+      commonVerbs,
+      uncommonVerbs
+    ];
+
+    return commonSwitchStates.some((commonSwitch) => commonSwitch);
+  }
+
+  const isRegularOrIrregularSelected = () => {
+    const regularSwitchStates = [
+      regularVerbs,
+      irregularVerbs
+    ];
+
+    return regularSwitchStates.some((regularSwitch) => regularSwitch);
+  }
+
   const handleCloseAndSave = () => {
     // Check if at least one tense is selected
     if (!areAnyTensesSelected()) {
       // Show error Snackbar
-      setSnackbarOpen(true);
+      setTenseSnackbarOpen(true);
+    } else if (!isCommonOrUncommonSelected()) {
+      setCommonSnackbarOpen(true);
+    } else if (!isRegularOrIrregularSelected()) {
+      setRegularSnackbarOpen(true);
     } else {
       // Save changes and close the sidebar
       handleSaveChanges();
@@ -142,7 +179,42 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
       <Divider />
     </div>      
         <List>
-        <Typography variant="h6" paddingTop={'16px'} >Verbs</Typography>
+        <Typography variant="h6" paddingTop='2vh'>Verbs</Typography>
+          <ListItem>
+            <ListItemText primary="Use vosotros" />
+            <Switch 
+              checked={useVosotros} 
+              onChange={(event) => setUseVosotros(event.target.checked)} 
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Common verbs" />
+            <Switch 
+              checked={commonVerbs} 
+              onChange={(event) => setCommonVerbs(event.target.checked)} 
+            />
+          </ListItem>
+          <ListItem >
+            <ListItemText primary="Uncommon verbs" />
+            <Switch 
+              checked={uncommonVerbs} 
+              onChange={(event) => setUncommonVerbs(event.target.checked)} 
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Regular verbs" />
+            <Switch 
+              checked={regularVerbs} 
+              onChange={(event) => setRegularVerbs(event.target.checked)} 
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Irregular verbs" />
+            <Switch 
+              checked={irregularVerbs} 
+              onChange={(event) => setIrregularVerbs(event.target.checked)} 
+            />
+          </ListItem>
           <ListItem>
             <ListItemText primary="Reflexive verbs" />
             <Switch 
@@ -150,16 +222,9 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
               onChange={(event) => setReflexiveVerbs(event.target.checked)} 
             />
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Uncommon verbs" />
-            <Switch 
-              checked={uncommonVerbs} 
-              onChange={(event) => setUncommonVerbs(event.target.checked)} 
-            />
-          </ListItem>
 
           <Divider />
-          <Typography variant="h6" paddingTop={'16px'}>Indicative tenses</Typography>
+          <Typography variant="h6" paddingTop='2vh'>Indicative tenses</Typography>
           <ListItem>
             <ListItemText primary="Present tense" />
             <Switch 
@@ -232,7 +297,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           </ListItem>
 
           <Divider />
-          <Typography variant="h6" paddingTop={'16px'}>Subjunctive tenses</Typography>
+          <Typography variant="h6" paddingTop='2vh'>Subjunctive tenses</Typography>
           <ListItem>
             <ListItemText primary="Present subjunctive tense" />
             <Switch 
@@ -256,7 +321,7 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
           </ListItem>
 
           <Divider />
-          <Typography variant="h6" paddingTop={'16px'}>Imperative moods</Typography>
+          <Typography variant="h6" paddingTop='2vh'>Imperative moods</Typography>
           <ListItem>
             <ListItemText primary="Imperative" />
             <Switch 
@@ -280,11 +345,39 @@ const SettingsSidebar = ({ open, onClose, settings}) => {
       </div>
       </Container>
             {/* Snackbar for error message */}
-            <Snackbar
-        open={snackbarOpen}
+      <Snackbar
+        open={tenseSnackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         message="At least one tense must be selected."
+        action={
+          <>
+            <Button color="inherit" size="small" onClick={handleSnackbarClose}>
+              Dismiss
+            </Button>
+          </>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Set anchor origin to bottom right
+      />
+            <Snackbar
+        open={commonSnackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message="One of common and uncommon verbs must be selected."
+        action={
+          <>
+            <Button color="inherit" size="small" onClick={handleSnackbarClose}>
+              Dismiss
+            </Button>
+          </>
+        }
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} // Set anchor origin to bottom right
+      />
+            <Snackbar
+        open={regularSnackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message="One of regular and irregular verbs must be selected."
         action={
           <>
             <Button color="inherit" size="small" onClick={handleSnackbarClose}>

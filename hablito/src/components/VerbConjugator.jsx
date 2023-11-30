@@ -129,7 +129,7 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
           {/* New flex container */}
-          <div style={{ display: 'flex', maxWidth: '320px', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'center' }}>
             <Typography 
               variant="h2" 
               style={{ 
@@ -214,7 +214,7 @@ function VerbConjugator({ randomVerb, randomTense, randomVerbForm, resetScreen, 
         <Button variant="text" color="primary" onClick={handleShowMeClick} disabled={showMeDisabled} style={{color: showMeDisabled ? theme.palette.primary.disabled : theme.palette.primary.main, borderRadius: '10vw', textTransform: 'none' }}>
           Show me
         </Button>
-        <Button variant="contained" color="primary" onClick={buttonText === 'Next' ? handleNextClick : handleCheckClick} style={{ borderRadius: '10vw', textTransform: 'none', paddingLeft: '20px', paddingRight: '20px' }}>
+        <Button variant="contained" color="primary" onClick={buttonText === 'Next' ? handleNextClick : handleCheckClick} disabled={inputValue.trim() === ''} style={{ borderRadius: '10vw', textTransform: 'none', paddingLeft: '20px', paddingRight: '20px' }}>
           {buttonText}
         </Button>
       </div>

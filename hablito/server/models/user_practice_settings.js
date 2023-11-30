@@ -115,6 +115,18 @@ import { DataTypes } from 'sequelize';
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      usevosotros: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+      show_common_verbs: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+      show_regular_verbs: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      }
     }, {
       tableName: "user_practice_settings",
       timestamps: true,

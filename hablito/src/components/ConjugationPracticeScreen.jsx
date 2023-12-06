@@ -19,16 +19,29 @@ function ConjugationPracticeScreen() {
   const [randomVerbForm, setRandomVerbForm] = useState('');
   const [listOfTenses, setListOfTenses] = useState([]);
   const [randomTense, setRandomTense] = useState('');
-
   const [showSettings, setShowSettings] = useState(false);
   const [showVerbsScreen, setShowVerbsScreen] = useState(false);
+  
+  //this is to ensure that verb conjugator only re-renders when showSettings becomes false
+  const [prevUserPracticeSettings, setPrevUserPracticeSettings] = useState(null);
 
+  const userId = getUserIdFromCookie();
+  
+  const fetchData = async () => {
+    try {
+      const data = await fetchUserSettings(userId);
+      setPrevUserPracticeSettings(userPracticeSettings)
+      setUserPracticeSettings(data);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
-    if (!showSettings) {
-      // Settings sidebar is closing, add to the counter so that VerbConjugator re-renders
-      setCounter((prevCounter) => prevCounter + 1)    }
+    fetchData()
   };
 
   const toggleVerbsScreen = () => {
@@ -51,7 +64,6 @@ function ConjugationPracticeScreen() {
           showUncommonVerbs: settings.showUncommonVerbs,
           showCommonVerbs: settings.show_common_verbs,
           showRegularVerbs: settings.show_regular_verbs,
-          reflexive: settings.showReflexiveVerbs
         },
       });
   
@@ -66,20 +78,19 @@ function ConjugationPracticeScreen() {
   };
 
   useEffect(() => {
-    const userId = getUserIdFromCookie();
-  
-    const fetchData = async () => {
-      try {
-        const data = await fetchUserSettings(userId);
-        setUserPracticeSettings(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-  
-    fetchData();
+    // Fetch data only when userPracticeSettings changes
+    if (prevUserPracticeSettings !== null && userPracticeSettings !== prevUserPracticeSettings) {
+      console.log("Fetching random verb because userPracticeSettings changed...");
+      resetScreen();
+    }
+
+    // Update prevUserPracticeSettings
+    setPrevUserPracticeSettings(userPracticeSettings);
+  }, [userPracticeSettings, prevUserPracticeSettings]);
+
+
+  useEffect(() => {
+      fetchData();
   }, [showSettings]);
 
   const vosotrosEnabled = userPracticeSettings.usevosotros
@@ -101,26 +112,23 @@ function ConjugationPracticeScreen() {
       const tenseNames = tensesFromSettings.map((tense) => tense.slice(4));
       setListOfTenses(tenseNames);      
     }
-  }, [userPracticeSettings]);
+  }, [prevUserPracticeSettings]);
 
-  useEffect(() => {
-    console.log("Fetching random verb...");
+  // useEffect(() => {
+  //   console.log("Fetching random verb...");
 
-    if (listOfTenses.length > 0) {
-      const randomVerbFormIndex = Math.floor(Math.random() * listOfVerbForms.length);
-      setRandomVerbForm(listOfVerbForms[randomVerbFormIndex]);
-  
-      const randomTenseIndex = Math.floor(Math.random() * listOfTenses.length);
-      setRandomTense(listOfTenses[randomTenseIndex]);
+  //   if (listOfTenses.length > 0) {
+  //     const randomVerbFormIndex = Math.floor(Math.random() * listOfVerbForms.length);
+  //     setRandomVerbForm(listOfVerbForms[randomVerbFormIndex]);
+   
+  //     const randomTenseIndex = Math.floor(Math.random() * listOfTenses.length);
+  //     setRandomTense(listOfTenses[randomTenseIndex]);
 
-      fetchRandomVerb();
-    }
-  }, [listOfTenses]);
+  //     fetchRandomVerb();
+  //   }
+  // }, [prevUserPracticeSettings]);
   
   const resetScreen = () => {
-    setRandomVerb('');
-    setRandomVerbForm('');
-    setRandomTense('');
     
     const randomVerbFormIndex = Math.floor(Math.random() * listOfVerbForms.length);
     setRandomVerbForm(listOfVerbForms[randomVerbFormIndex]);

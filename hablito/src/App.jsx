@@ -7,7 +7,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="Conjugito" style={{overflowY:'hidden'}}>
-        <header className="Conjugito - Practice Spanish Verb Conjugation">
+        <header className="Hablito - Practice Spanish Verb Conjugation">
           <ConjugationPracticeScreen />
         </header>
       </div>

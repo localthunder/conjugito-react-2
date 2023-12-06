@@ -3,7 +3,6 @@ import { join, dirname } from 'path'; // Use 'path' instead of 'url'
 import { fileURLToPath } from 'url';
 import { Sequelize, DataTypes } from 'sequelize';
 import config from '../config/config.js';
-import UserPracticeSettings from './user_practice_settings.js';
 
 // Use fileURLToPath and dirname to get the directory name in ESM
 const __filename = fileURLToPath(import.meta.url);

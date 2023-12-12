@@ -77,16 +77,16 @@ function ConjugationPracticeScreen() {
     }
   };
 
-  useEffect(() => {
-    // Fetch data only when userPracticeSettings changes
-    if (prevUserPracticeSettings !== null && userPracticeSettings !== prevUserPracticeSettings) {
-      console.log("Fetching random verb because userPracticeSettings changed...");
-      resetScreen();
-    }
+  // useEffect(() => {
+  //   // Fetch data only when userPracticeSettings changes
+  //   if (prevUserPracticeSettings !== null && userPracticeSettings !== prevUserPracticeSettings) {
+  //     console.log("Fetching random verb because userPracticeSettings changed...");
+  //     resetScreen();
+  //   }
 
-    // Update prevUserPracticeSettings
-    setPrevUserPracticeSettings(userPracticeSettings);
-  }, [userPracticeSettings, prevUserPracticeSettings]);
+  //   // Update prevUserPracticeSettings
+  //   setPrevUserPracticeSettings(userPracticeSettings);
+  // }, [userPracticeSettings, prevUserPracticeSettings]);
 
 
   useEffect(() => {
@@ -110,23 +110,37 @@ function ConjugationPracticeScreen() {
       );
 
       const tenseNames = tensesFromSettings.map((tense) => tense.slice(4));
-      setListOfTenses(tenseNames);      
+      setListOfTenses(tenseNames);
+
+      const randomTenseIndex = Math.floor(Math.random() * listOfTenses.length);
+      setRandomTense(listOfTenses[randomTenseIndex]); 
     }
   }, [prevUserPracticeSettings]);
 
-  // useEffect(() => {
-  //   console.log("Fetching random verb...");
+useEffect(() => {
+  console.log("Fetching random verb...");
 
-  //   if (listOfTenses.length > 0) {
-  //     const randomVerbFormIndex = Math.floor(Math.random() * listOfVerbForms.length);
-  //     setRandomVerbForm(listOfVerbForms[randomVerbFormIndex]);
-   
-  //     const randomTenseIndex = Math.floor(Math.random() * listOfTenses.length);
-  //     setRandomTense(listOfTenses[randomTenseIndex]);
+  const getRandomTenseAndVerbForm = () => {
+    const randomVerbFormIndex = Math.floor(Math.random() * listOfVerbForms.length);
+    setRandomVerbForm(listOfVerbForms[randomVerbFormIndex]);
 
-  //     fetchRandomVerb();
-  //   }
-  // }, [prevUserPracticeSettings]);
+    const randomTenseIndex = Math.floor(Math.random() * listOfTenses.length);
+    setRandomTense(listOfTenses[randomTenseIndex]);
+  };
+
+  const fetchRandomVerbAndSetTense = async () => {
+    try {
+      await fetchRandomVerb();
+      getRandomTenseAndVerbForm();
+    } catch (error) {
+      console.error("Error fetching random verb:", error);
+    }
+  };
+
+  if (listOfTenses.length > 0) {
+    fetchRandomVerbAndSetTense();
+  }
+}, [listOfTenses]);
   
   const resetScreen = () => {
     

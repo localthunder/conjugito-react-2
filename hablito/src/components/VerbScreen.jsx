@@ -3,6 +3,7 @@ import { Drawer, Container, Typography, ListItem, ListSubheader, Collapse, ListI
 import { ExpandLess, ExpandMore, Close as CloseIcon, VolumeUp as VolumeUpIcon } from '@mui/icons-material';
 import { colors } from '../colors';
 import httpCommon from '../http-common';
+import UseIsMobile from './UseIsMobile';
 
 const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
   const [open, setOpen] = useState({
@@ -71,6 +72,8 @@ const VerbScreen = ({ selectedVerb, openVerbScreen, setOpenVerbScreen }) => {
       audioRef.current.play();
     }
   };
+
+  const isMobile = UseIsMobile();
 
   return (
     <Drawer
